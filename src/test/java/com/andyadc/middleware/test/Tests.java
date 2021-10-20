@@ -1,6 +1,9 @@
 package com.andyadc.middleware.test;
 
+import com.andyadc.middleware.db.router.annotation.DBRouter;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Method;
 
 public class Tests {
 
@@ -18,5 +21,21 @@ public class Tests {
 
         System.out.println(dbIdx);
         System.out.println(tbIdx);
+    }
+
+    @Test
+    public void test_str_format() {
+        System.out.println(String.format("db%02d", 1));
+        System.out.println(String.format("_%02d", 25));
+    }
+
+    @Test
+    public void test_annotation() throws NoSuchMethodException {
+        Class<UserMapper> iUserDaoClass = UserMapper.class;
+        Method method = iUserDaoClass.getMethod("insertUser", String.class);
+
+        DBRouter dbRouter = method.getAnnotation(DBRouter.class);
+
+        System.out.println(dbRouter.key());
     }
 }
